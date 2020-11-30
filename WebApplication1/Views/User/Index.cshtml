@@ -1,0 +1,33 @@
+﻿@model List<WebApplication1.Models.TableViewsModel.UserTableViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Usuarios</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <input type="button" class="btn btn-primary" onclick="document.location.href='@Url.Content("~/User/Add")'" value="Nuevo" />
+    </div>
+</div>
+<br />
+<div class="row">
+    <div class="col-lg-12">
+        <table class="table table-bordered">
+            <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Edad</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Email</td>
+                <td>@item.Edad</td>
+            </tr>
+            }
+        </table>
+    </div>
+</div>
+

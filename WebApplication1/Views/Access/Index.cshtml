@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
+}
+
+<div class="row" data-url="@Url.Content("~/Access/Enter")">
+    <form id="frm">
+        Usuario:
+        <input type="text" required name="user" />
+        Password:
+        <input type="password" required name="password" />
+        <input type="submit" class="btn btn-success" value="Entrar" />
+    </form>
+</div>
+
+@section scripts{
+
+    <script src="~/Scripts/Access/AccessIndex.js"></script>
+}
+
