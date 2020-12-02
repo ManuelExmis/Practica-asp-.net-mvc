@@ -24,5 +24,8 @@ namespace WebApplication1.Models.ViewModels
         public string ConfirmPassword { get; set; }
         [Required]
         public int Edad { get; set; }
+
+        [Display(Name = "Cliente")]
+        public string Codigo_Cliente { get; set; }
     }
 }

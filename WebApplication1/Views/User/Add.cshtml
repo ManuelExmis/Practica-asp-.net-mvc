@@ -29,6 +29,9 @@
             @Html.LabelFor(d => d.Edad)
             @Html.PasswordFor(d => d.Edad, new { @class = "form-control" })
             @Html.ValidationMessage("Edad", new { @class = "text-danger" })
+
+            @Html.LabelFor(d => d.Codigo_Cliente)
+            @Html.DropDownListFor(d => d.Codigo_Cliente, (List<SelectListItem>)ViewBag.itemsCombo, new { @class = "form-control", @id = "comboCliente" })
             <br />
             <div style="text-align: right">
                 <input type="submit" class="btn btn-success" value="Guardar" />
@@ -37,3 +40,58 @@
 
     </div>
 </div>
+
+@section scripts {
+    <link href="~/Content/css/select2.css" rel="stylesheet" />
+    @*<link href="Content/css/select2.min.css" rel="stylesheet" />*@
+    @*<script src="scripts/jquery-1.7.min.js"></script>*@
+    <script src="~/Scripts/select2.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            $(function () {
+                $("#comboCliente").select2({
+                    ajax: {
+                        url: "/User/BuscarCliente",
+                        type: 'post',
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                cliente: params.term
+                            };
+                        },
+                        processResults: function (data, params) {
+                            // parse the results into the format expected by Select2
+                            // since we are using custom formatting functions we do not need to
+                            // alter the remote JSON data, except to indicate that infinite
+                            // scrolling can be used
+                            //params.page = params.page || 1;
+                            let result = data.map(function (item, index) {
+                                return {
+                                    id: item.Codigo_Cliente,
+                                    text: item.Nombre
+                                };
+                            })
+                            return {
+                                results: result
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Digite nombre o codigo de cliente',
+                    minimumInputLength: 3,
+                    templateResult: function (state) {
+                        let $state = $(
+                                '<strong>' + state.id + ' </strong> - <span>' + state.text + '</span>'
+                            );
+                        return $state;
+                        //return '<strong>' + state.id + '</strong>' + state.text;
+                    }
+                });
+            });
+
+        });
+    </script>
+}

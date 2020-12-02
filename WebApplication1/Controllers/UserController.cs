@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication1.Models.BD;
+using WebApplication1.Models.Response;
 using WebApplication1.Models.TableViewsModel;
 using WebApplication1.Models.ViewModels;
 
@@ -36,6 +37,9 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public ActionResult Add()
         {
+            var listadoItems = new List<SelectListItem>();
+
+            ViewBag.itemsCombo = listadoItems;
             return View();
         }
 
@@ -61,6 +65,28 @@ namespace WebApplication1.Controllers
             }
 
             return Redirect(Url.Content("~/User/"));
+        }
+
+        [HttpPost]
+        public ActionResult BuscarCliente(string cliente)
+        {
+            List<ClienteResponse> listadoCliente = new List<ClienteResponse>();
+
+            try
+            {
+                using ( var db = new CursoMVCEntities())
+                {
+                    listadoCliente = db.Database
+                                        .SqlQuery<ClienteResponse>("EXEC dbo.spBuscarCliente {0}", cliente)
+                                        .ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Json(listadoCliente, JsonRequestBehavior.AllowGet);
         }
     }
 }
